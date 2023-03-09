@@ -1,15 +1,16 @@
+'use strict';
+
 const express = require('express');
-const app = express();
-const http = require('http').Server(app);
-const io = require('socket.io')(http);
-const port = (process.env.PORT || 5000)
+const socketIO = require('socket.io');
 
-function onConnection(socket){
-  socket.on('message', (msg) => {
-    io.emit('chat message', msg);
-  });
-}
+const PORT = process.env.PORT || 3000;
 
-io.on('connection', onConnection);
+const server = express().listen(PORT, () => console.log(`Listening on ${PORT}`));
 
-http.listen(port, () => console.log('listening on port ' + port));
+const io = socketIO(server);
+
+io.on('connection', (socket) => {
+  console.log('Client connected');
+  socket.on('disconnect', () => console.log('Client disconnected'));
+});
+
