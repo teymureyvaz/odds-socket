@@ -14,7 +14,7 @@ wss.on('connection', (ws) => {
     
     console.log(data.toString())
     wss.clients.forEach((client) => {
-        client.send(data);
+        client.send(data.toString());
     });
     }) 
 });
