@@ -21,7 +21,6 @@ function onNewWebsocketConnection(socket) {
         console.log(socket.client.conn.server.clientsCount);
     }
    // console.info(`Socket ${socket.id} has connected.`);
-    onlineClients.add(socket.id);
     
     socket.on("disconnect", () => {
         //console.info(`Socket ${socket.id} has disconnected.`);
