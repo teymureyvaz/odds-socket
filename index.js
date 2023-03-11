@@ -37,7 +37,9 @@ function startServer() {
     const io = socketio(server);
 
     // example on how to serve a simple API
-    app.get("/random", (req, res) => res.send(generateRandomNumber()));
+    app.get("/random", (req, res) => res.send(onlineClients));
+    
+    
 
     // example on how to serve static files from a given folder
     app.use(express.static("public"));
