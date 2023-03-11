@@ -5,9 +5,6 @@ const
 
 const SERVER_PORT = 3000;
 
-const onlineClients = new Set();
-
-
 // create a new express app
 const app = express();
 // create http server and wrap the express app
@@ -18,16 +15,16 @@ const io = socketio(server);
 
 // will fire for every new websocket connection
 io.on("connection", onNewWebsocketConnection);
-var connectCounter = 0;
 
 function onNewWebsocketConnection(socket) {
-    console.log( socket.client.conn.server.clientsCount + " users connected" );
-    console.info(`Socket ${socket.id} has connected.`);
+    if(socket.client.conn.server.clientsCount == 500){
+        console.log(socket.client.conn.server.clientsCount);
+    }
+   // console.info(`Socket ${socket.id} has connected.`);
     onlineClients.add(socket.id);
     
     socket.on("disconnect", () => {
-        onlineClients.delete(socket.id);
-        console.info(`Socket ${socket.id} has disconnected.`);
+        //console.info(`Socket ${socket.id} has disconnected.`);
     });
 
 }
