@@ -15,7 +15,7 @@ wss.on('connection', (ws) => {
     console.log(data.toString())
     console.log(wss.clients.size)
     wss.clients.forEach((client) => {
-        client.send(data.toString());
+        client.send(data);
     });
     }) 
 });
