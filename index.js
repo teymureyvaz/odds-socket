@@ -17,9 +17,9 @@ const io = socketio(server);
 io.on("connection", onNewWebsocketConnection);
 
 function onNewWebsocketConnection(socket) {
-    if(socket.client.conn.server.clientsCount == 500){
+
         console.log(socket.client.conn.server.clientsCount);
-    }
+ 
    // console.info(`Socket ${socket.id} has connected.`);
     
     socket.on("disconnect", () => {
