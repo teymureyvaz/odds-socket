@@ -1,30 +1,27 @@
-var WebSocketServer = require('ws').Server;
-var wss = new WebSocketServer({ port: 3000 }); // ws://localhost:3000
+const
+    {Server} = require("socket.io"),
+    server = new Server(8000);
 
-// Static test var
-var test_message = {
-    'test': 'Response',
-    'test2': 'Response2'
-};
+let
+    sequenceNumberByClient = new Map();
 
-// Broadcast to all.
-wss.broadcast = function broadcast(data) {
-  wss.clients.forEach(function each(client) {
-    console.log('IT IS GETTING INSIDE CLIENTS');
-    console.log(client);
+// event fired every time a new client connects:
+server.on("connection", (socket) => {
+    console.info(`Client connected [id=${socket.id}]`);
+    // initialize this client's sequence number
+    sequenceNumberByClient.set(socket, 1);
 
-    // The data is coming in correctly
-    console.log(data);
-    client.send(data);
-  });
-};
-
-wss.on('connection', function(ws) {
-   ws.on('message', function(message) {
-     wss.broadcast(test_message);
-     console.log('Received: ' + message);
-   });
-
-   // TODO This is static just to check that the connection is properly working
-   ws.send('You successfully connected to the websocket.');
+    // when socket disconnects, remove it from the list:
+    socket.on("disconnect", () => {
+        sequenceNumberByClient.delete(socket);
+        console.info(`Client gone [id=${socket.id}]`);
+    });
 });
+
+// sends each client its current sequence number
+setInterval(() => {
+    for (const [client, sequenceNumber] of sequenceNumberByClient.entries()) {
+        client.emit("seq-num", sequenceNumber);
+        sequenceNumberByClient.set(client, sequenceNumber + 1);
+    }
+}, 1000);
