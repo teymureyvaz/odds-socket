@@ -1,34 +1,17 @@
-const
-    http = require("http"),
-    express = require("express"),
-    socketio = require("socket.io");
-
-const SERVER_PORT = 3000;
-
-// create a new express app
+const express = require("express");
 const app = express();
-// create http server and wrap the express app
-const server = http.createServer(app);
-// bind socket.io to that server
-const io = socketio(server);
+const port = 3000;
+const http = require("http").createServer();
+const io = require("socket.io")(http);
+//Listen for a client connection 
+io.on("connection", (socket) => {
+    console.log(socket.client.conn.server.clientsCount)
+    //Socket is a Link to the Client 
+    console.log("New Client is Connected!");
+    //Here the client is connected and we can exchanged 
+});
 
-
-// will fire for every new websocket connection
-io.on("connection", onNewWebsocketConnection);
-
-function onNewWebsocketConnection(socket) {
-
-        console.log(socket.client.conn.server.clientsCount);
- 
-   // console.info(`Socket ${socket.id} has connected.`);
-    
-    socket.on("disconnect", () => {
-        //console.info(`Socket ${socket.id} has disconnected.`);
-    });
-
-}
-
-
-// important! must listen from `server`, not `app`, otherwise socket.io won't function correctly
-server.listen(SERVER_PORT, () => console.info(`Listening on port ${SERVER_PORT}.`));
-
+//Listen the HTTP Server 
+http.listen(port, () => {
+    console.log("Server Is Running Port: " + port);
+});
