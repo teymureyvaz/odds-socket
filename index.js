@@ -18,11 +18,14 @@ const io = socketio(server);
 
 // will fire for every new websocket connection
 io.on("connection", onNewWebsocketConnection);
-
+var connectCounter = 0;
 
 function onNewWebsocketConnection(socket) {
+    console.log( socket.client.conn.server.clientsCount + " users connected" );
     console.info(`Socket ${socket.id} has connected.`);
     onlineClients.add(socket.id);
+    
+    console.log(
 
     socket.on("disconnect", () => {
         onlineClients.delete(socket.id);
