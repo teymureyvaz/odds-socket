@@ -7,6 +7,7 @@ const wss = new WebSocketServer.Server({ port: 8080 })
 // Creating connection using websocket
 wss.on("connection", ws => {
     console.log("new client connected");
+    console.log(wss.clients.size);
  
     // sending message to client
     ws.send('Welcome, you are connected!');
@@ -15,7 +16,7 @@ wss.on("connection", ws => {
     ws.on("message", data => {
         console.log(`Client has sent us: ${data}`)
     });
- 
+  
     // handling what to do when clients disconnects from server
     ws.on("close", () => {
         console.log("the client has connected");
