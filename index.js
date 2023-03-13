@@ -10,6 +10,7 @@ wss.on("connection", ws => {
     ws.on("message", data => {
             console.log(data)
           wss.clients.forEach(function each(client){
+           console.log("sent to client")
            client.send(data);
          });
     });
