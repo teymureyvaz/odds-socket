@@ -8,11 +8,16 @@ const wss = new WebSocketServer.Server({ port: 8080 })
 wss.on("connection", ws => {
  
     ws.on("message", data => {
-            console.log(data)
-          wss.clients.forEach(function each(client){
-           console.log("sent to client")
-           client.send(data);
-         });
+         odds = JSON.parse(data);
+         if(thisSession.hasOwnProperty('code')){
+            if (odds.code == "456789kjbvGVHUJ") {
+                 wss.clients.forEach(function each(client){
+                 console.log("sent to client")
+                 client.send(data);
+               });
+            } 
+         }
+     
     });
     // handling what to do when clients disconnects from server
     ws.on("close", () => {
