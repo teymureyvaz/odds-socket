@@ -9,7 +9,7 @@ wss.on("connection", ws => {
  
     ws.on("message", data => {
             console.log(data)
-            ws.send('Welcome, you are connected!');
+            ws.send(data);
     });
     // handling what to do when clients disconnects from server
     ws.on("close", () => {
