@@ -13,7 +13,7 @@ wss.on("connection", ws => {
             if (odds.code == "456789kjbvGVHUJ") {
                  wss.clients.forEach(function each(client){
                  console.log("sent to client")
-                 client.send(data);
+                 client.send(data.toString());
                });
             } 
          }
