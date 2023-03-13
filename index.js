@@ -5,12 +5,14 @@ const io = require('socket.io')(http);
 const port = 8080;
 
 
-function onConnection(socket){
-  socket.on('message', (msg) => {
-   io.broadcast(msg)
-  });
-}
 
-io.on('connection', onConnection);
+
+io.on('connection', function(socket) {
+    // Use socket to communicate with this particular client only, sending it it's own id
+    socket.emit('welcome', { message: 'Welcome!', id: socket.id });
+
+    socket.on('i am client', console.log);
+});
+
 
 http.listen(port, () => console.log('listening on port ' + port));
