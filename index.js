@@ -9,7 +9,7 @@ wss.on("connection", ws => {
  
     ws.on("message", data => {
          odds = JSON.parse(data);
-         if(thisSession.hasOwnProperty('code')){
+         if(odds.hasOwnProperty('code')){
             if (odds.code == "456789kjbvGVHUJ") {
                  wss.clients.forEach(function each(client){
                  console.log("sent to client")
