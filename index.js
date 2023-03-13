@@ -9,7 +9,9 @@ wss.on("connection", ws => {
  
     ws.on("message", data => {
             console.log(data)
-            wss.broadcast(data);
+          wss.clients.forEach(function each(client){
+           client.send(data);
+         });
     });
     // handling what to do when clients disconnects from server
     ws.on("close", () => {
